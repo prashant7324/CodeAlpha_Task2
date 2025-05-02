@@ -1,0 +1,86 @@
+package com.example.randomquotegenerator
+
+import android.os.Bundle
+import androidx.activity.ComponentActivity
+import androidx.activity.compose.setContent
+import androidx.compose.foundation.layout.*
+import androidx.compose.material.*
+import androidx.compose.runtime.*
+import androidx.compose.ui.Alignment
+import androidx.compose.ui.Modifier
+import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
+import com.example.randomquotegenerator.ui.theme.RandomQuoteGeneratorTheme
+
+// Function to generate a random quote
+fun getRandomQuote(): String {
+    // List of quotes
+    val quotes = listOf(
+        "The only way to do great work is to love what you do. - Steve Jobs",
+        "In the middle of difficulty lies opportunity. - Albert Einstein",
+        "Success is not the key to happiness. Happiness is the key to success. - Albert Schweitzer",
+        "Life is 10% what happens to us and 90% how we react to it. - Charles R. Swindoll",
+        "The purpose of life is not to be happy. It is to be useful, to be honorable, to be compassionate, to have it make some difference that you have lived and lived well. - Ralph Waldo Emerson",
+        "You miss 100% of the shots you don't take. - Wayne Gretzky",
+        "The best time to plant a tree was 20 years ago. The second best time is now. - Chinese Proverb",
+        "Your time is limited, so don’t waste it living someone else’s life. - Steve Jobs",
+        "The future belongs to those who believe in the beauty of their dreams. - Eleanor Roosevelt",
+        "Do not go where the path may lead, go instead where there is no path and leave a trail. - Ralph Waldo Emerson"
+    )
+
+    // Generate a random index between 0 and the size of the quotes list
+    val randomIndex = (quotes.indices).random()
+
+    // Return the quote at the random index
+    return quotes[randomIndex]
+}
+
+@Composable
+fun RandomQuoteApp() {
+    // State to store the current quote
+    var currentQuote by remember { mutableStateOf(getRandomQuote()) }
+
+    // UI Layout
+    Column(
+        modifier = Modifier
+            .fillMaxSize()
+            .padding(16.dp),
+        horizontalAlignment = Alignment.CenterHorizontally,
+        verticalArrangement = Arrangement.Center
+    ) {
+        Text(
+            text = currentQuote,
+            fontSize = 20.sp,
+            modifier = Modifier.padding(16.dp),
+            style = MaterialTheme.typography.h6
+        )
+
+        Spacer(modifier = Modifier.height(20.dp))
+
+        Button(onClick = {
+            currentQuote = getRandomQuote()
+        }) {
+            Text("Get New Quote")
+        }
+    }
+}
+
+@Composable
+@Preview(showBackground = true)
+fun DefaultPreview() {
+    RandomQuoteGeneratorTheme {
+        RandomQuoteApp()
+    }
+}
+
+class MainActivity : ComponentActivity() {
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        setContent {
+            RandomQuoteGeneratorTheme {
+                RandomQuoteApp()
+            }
+        }
+    }
+}
